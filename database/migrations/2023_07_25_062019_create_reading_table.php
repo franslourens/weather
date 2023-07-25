@@ -18,6 +18,7 @@ class CreateReadingTable extends Migration
             $table->string('type');
             $table->string('endpoint');
             $table->string('token');
+            $table->string('description');
             $table->timestamps();
         });
     }

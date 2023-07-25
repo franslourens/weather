@@ -2,10 +2,27 @@
     namespace App\Http\Controllers\API;
     
     use Illuminate\Http\Request;
+    use Illuminate\Http\JsonResponse;
     use App\Http\Controllers\Controller as Controller;
+
+    use App\Models\Reading;
 
     class BaseController extends Controller
     {
+        /**
+         * Display a listing of the resource.
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function index(Request $request): JsonResponse
+        {
+            $location = $request->input('location');
+
+            $readings = Reading::all();
+
+            return $this->sendResponse($readings, 'Weather list');
+        }
+
         /**
         * success response method.
         *

@@ -3,7 +3,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use Validator;
+//use Validator;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse;
@@ -17,10 +17,11 @@ class WeatherController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $readings = Reading::all();
+        $location = $request->input('location');
+        $endpoint = $request->input('type');
 
-        return $this->sendResponse($readings, 'Weather list');
+        return $this->sendResponse(Reading::collection($location, $endpoint), 'Weather list');
     }
 }
