@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: app
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: weather
+    container_name: weather-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - /var/www/vendor
+      - socket:/socket
+    networks:
+      - weather
+  nginx:
+    build:
+      context: ./docker-compose/nginx
+      dockerfile: Dockerfile
+      args:
+        user: app
+        uid: 1000
+    container_name: weather-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - socket:/socket
+    networks:
+      - weather
+    depends_on:
+      - app
+volumes:
+  socket:
+networks:
+  weather:
+    driver: bridge
