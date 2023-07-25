@@ -1,10 +1,9 @@
 <?php
- 
-namespace App\Interfaces;
- 
-interface Weather
-{
-    public function get();
- 
-    public function data();
-}
+    namespace App\Interfaces;
+    
+    interface Weather
+    {
+        public function getData();
+    
+        public function getContents();
+    }

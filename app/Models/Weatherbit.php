@@ -9,17 +9,19 @@ use App\Models\Reading;
 use App\Interfaces\Weather;
 
 
-class OpenWeatherMap extends Reading implements Weather
+class Weatherbit extends Reading implements Weather
 {
     protected $guarded = [];  
 
     public function getData () {
         $address = $this->attributes["address"];
 
-        $response = Http::get($this->endpoint, [
-            'q' => $address,
-            'units' => 'metric',
-            'appid' => $this->token
+        $response = Http::get($this->endpoint . "/daily", [
+            'lat' => "51.5085",
+            'lon' => "-0.1257",
+            'key' => $this->token,
+            'start_date' => date("Y-m-d"),
+            'end_date' => date('Y-m-d', strtotime("+1 day"))
         ]);
 
         $data = json_decode($response->body(), true);
@@ -28,10 +30,10 @@ class OpenWeatherMap extends Reading implements Weather
 
     public function getContents() {
         $data = $this->getData();
-
-        return ["temp" => $data["main"]["temp"],
-                "min" => $data["main"]["temp_min"],
-                "max" => $data["main"]["temp_max"]
+        
+        return ["temp" => $data["data"][0]["temp"],
+                "min" => $data["data"][0]["min_temp"],
+                "max" => $data["data"][0]["max_temp"]
                ];
     }
 
