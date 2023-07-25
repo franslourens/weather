@@ -18,11 +18,15 @@ class AuthController extends BaseController
 
     public function login(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
 
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+        
         $credentials = $request->only('email', 'password');
         
         $token = Auth::attempt($credentials);
