@@ -43,8 +43,8 @@ class ReadingSeeder extends Seeder
 
         Reading::create([
             'type' => 'Weatherbit',
-            'endpoint' => '',
-            'token' => '',
+            'endpoint' => 'https://api.weatherbit.io/v2.0/history',
+            'token' => 'e5a4afc70ba54c92aed2153938bac2aa',
             'description' => 'Provides current weather conditions, forecasts, and historical weather data'
         ]);
 
