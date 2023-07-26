@@ -14,7 +14,9 @@ class OpenWeatherMap extends Reading implements Weather
     protected $guarded = [];  
 
     public function getData () {
-        $address = $this->attributes["address"];
+        $geolocation = $this->getGeocode($this->attributes["address"]);
+        
+        $address = $geolocation["address"];
 
         $response = Http::get($this->endpoint, [
             'q' => $address,

@@ -14,11 +14,11 @@ class Weatherbit extends Reading implements Weather
     protected $guarded = [];  
 
     public function getData () {
-        $address = $this->attributes["address"];
+        $geolocation = $this->getGeocode($this->attributes["address"]);
 
         $response = Http::get($this->endpoint . "/daily", [
-            'lat' => "51.5085",
-            'lon' => "-0.1257",
+            'lat' => $geolocation["lat"],
+            'lon' => $geolocation["lon"],
             'key' => $this->token,
             'start_date' => date("Y-m-d"),
             'end_date' => date('Y-m-d', strtotime("+1 day"))

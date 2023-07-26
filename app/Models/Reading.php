@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\JsonReportFormatter;
+
 
 class Reading extends Model 
 { 
@@ -46,6 +49,28 @@ class Reading extends Model
         $model->fill($data);
         
         return $model;
+    }
+
+    public function getGeocode($address) {
+
+        $cache = Cache::get($address);
+
+        if(!$cache) {
+
+            $data = Http::get(env('GOOGLE_API_ENDPOINT'), [
+                'address' => $address,
+                'key' => env('GOOGLE_API_KEY')
+            ]);
+
+            $results = json_decode($data->body(), true)["results"][0];
+
+            Cache::store('redis')->put($address, $results);
+        }
+
+        return ["address" => $cache["formatted_address"] ? $cache["formatted_address"] : $address,
+                "lat" => $cache["geometry"]["location"]["lat"],
+                "lon" => $cache["geometry"]["location"]["lng"],
+               ];
     }
 
     /*

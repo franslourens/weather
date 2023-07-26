@@ -16,8 +16,6 @@
          */
         public function index(Request $request): JsonResponse
         {
-            $location = $request->input('location');
-
             $readings = Reading::all()->transform(function($item) {
                 return $item->only(['type', 'endpoint', 'description']);
             });
