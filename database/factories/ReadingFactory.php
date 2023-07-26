@@ -4,11 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+
+use App\Models\Reading;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Reading>
  */
 class ReadingFactory extends Factory
 {
+    protected $model = Reading::class;
+
     /**
      * Define the model's default state.
      *
@@ -16,12 +21,14 @@ class ReadingFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->name();
+
         return [
-            'type' => fake()->name(),
-            'endpoint' => fake()->name(),
+            'type' => $name,
+            'endpoint' => fake()->sentence(),
             'token' => Str::random(10),
-            'description' => fake()->name(),
-            'slug' => fake()->name()
+            'description' => fake()->paragraph(),
+            'slug' => Str::slug($name),
         ];
     }
 }

@@ -17,14 +17,13 @@ class ReadingTest extends TestCase
      * Test the user database.
      *
      * @return void
-     *
-     * public function test_user_database()
-     * {
-     *   Reading::factory()->count(3)->create();
-     *
-     *   this->assertDatabaseCount('reading', 3);
-     * } */
-
+     */
+     public function test_user_database()
+     {
+        Reading::factory()->count(3)->create();
+     
+        $this->assertDatabaseCount('reading', 3);
+     }
 
     public function castProvider() : array
     { 

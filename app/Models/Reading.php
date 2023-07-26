@@ -19,8 +19,10 @@ class Reading extends Model
 
     public $address;
 
-    public function __construct($location = null)
+    public function __construct(array $attributes = [], $location = null)
     {
+        parent::__construct($attributes);
+
         if($location) {
             $this->attributes["address"] = $location; 
         }
@@ -45,9 +47,7 @@ class Reading extends Model
             throw new \Exception("API not implemented yet, please contact an administrator");
         }
 
-        $model = new $cast($location);
-
-        $model->fill($data);
+        $model = new $cast($data, $location);
         
         return $model;
     }
