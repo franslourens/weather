@@ -13,6 +13,8 @@ class Reading extends Model
 { 
     use HasFactory;
 
+    protected $guarded = [];
+
     protected $table = 'reading';
 
     public $address;
@@ -34,7 +36,7 @@ class Reading extends Model
      * 
      * @return object
      */
-    public function cast($location) {
+    public function cast($location = null) {
         $data = $this->toArray();
 
         $cast = "\\App\\Models\\" . $this->type;
