@@ -17,7 +17,6 @@ class Reading extends Model
 
     public $address;
 
-
     public function __construct($location = null)
     {
         if($location) {
@@ -65,6 +64,8 @@ class Reading extends Model
             $results = json_decode($data->body(), true)["results"][0];
 
             Cache::store('redis')->put($address, $results);
+
+            $cache = $results;
         }
 
         return ["address" => $cache["formatted_address"] ? $cache["formatted_address"] : $address,
